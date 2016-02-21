@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace AttendanceCore.ViewModels.Manage
+﻿namespace AttendanceCore.ViewModels.Manage
 {
     public class FactorViewModel
     {
