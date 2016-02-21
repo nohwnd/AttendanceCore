@@ -1,12 +1,41 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using System;
+using System.Threading.Tasks;
+using AttendanceCore.Infrastructure;
+using AttendanceCore.Models;
+using AttendanceCore.Services;
+using Microsoft.AspNet.Authorization;
+using Microsoft.AspNet.Mvc;
 
 namespace AttendanceCore.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IEntryService _service;
+
+        public HomeController(IEntryService service)
         {
-            return View();
+            _service = service;
+        }
+
+        public async Task<IActionResult> Index(EntryViewModel vm)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return View(vm);
+
+                await _service.AddEntryAsync(vm);
+
+                ViewBag.Result = new Result {Type = "success", Message = "Entry was saved successfully."};
+                return View();
+            }
+            catch (Exception exception)
+            {
+                // log exception
+                ViewBag.Result = new Result {Type = "danger", Message = "There was some unexpected error, sorry."};
+                return View(vm);
+            }
         }
 
         public IActionResult About()

@@ -57,6 +57,10 @@ namespace AttendanceCore
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            // Add context scoped services
+            services.AddScoped<IEntryService, EntryService>();
+            services.AddScoped<ICurrentUser, CurrentUser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

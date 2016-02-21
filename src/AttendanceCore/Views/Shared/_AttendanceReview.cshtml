@@ -1,0 +1,23 @@
+﻿@using System.Threading.Tasks
+@using AttendanceCore.Services
+@inject IEntryService Service
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Time</th>
+        <th>Type</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in await Service.GetPageAsync(0))
+    {
+        <tr>
+            <td>@item.UserName</td>
+            <td>@item.Type</td>
+            <td>@item.Time</td>
+        </tr>
+    }
+    </tbody>
+</table>
