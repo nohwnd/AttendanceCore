@@ -203,7 +203,9 @@ FakesAssemblies/
 #my ignores
 project.lock.json
 **/wwwroot/lib/
+
 **/wwwroot/_references.js
+**/Scripts/_references.js
 
 # Visual Studio 6 build log
 *.plg
