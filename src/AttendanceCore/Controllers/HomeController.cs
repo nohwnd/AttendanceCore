@@ -17,7 +17,12 @@ namespace AttendanceCore.Controllers
         {
             _service = service;
         }
+                public  Task<IActionResult> Index()
+        {
+            return Task.FromResult((IActionResult) View());
+        }
 
+        [HttpPost]
         public async Task<IActionResult> Index(EntryViewModel vm)
         {
             try
