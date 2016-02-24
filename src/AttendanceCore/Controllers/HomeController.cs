@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Security.Claims;
 using AttendanceCore.Infrastructure;
 using AttendanceCore.Models;
-using AttendanceCore.Services;
+using AttendanceCore.ViewModels.Home;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 
@@ -11,37 +11,36 @@ namespace AttendanceCore.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly IEntryService _service;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(IEntryService service)
+        public HomeController(ApplicationDbContext context)
         {
-            _service = service;
+            _context = context;
         }
 
-        public Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return Task.FromResult((IActionResult) View());
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(EntryViewModel vm)
+        public IActionResult Index(EntryViewModel vm)
         {
-            try
+            var id = Guid.Parse(User.GetUserId());
+            if (ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                    return View(vm);
-
-                await _service.AddEntryAsync(vm);
-
-                ViewBag.Result = new Result {Type = "success", Message = "Entry was saved successfully."};
-                return View();
+                _context.Entries.Add(new Entry
+                {
+                    Note = vm.Note,
+                    PersonId = id,
+                    Time = DateTimeOffset.Now,
+                    Type = (EntryType) vm.EntryType
+                });
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            catch (Exception exception)
-            {
-                // log exception
-                ViewBag.Result = new Result {Type = "danger", Message = "There was some unexpected error, sorry."};
-                return View(vm);
-            }
+
+            return View(vm);
         }
 
         public IActionResult About()

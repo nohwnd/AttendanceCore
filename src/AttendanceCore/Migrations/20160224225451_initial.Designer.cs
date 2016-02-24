@@ -8,8 +8,8 @@ using AttendanceCore.Models;
 namespace AttendanceCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160221173755_Initial")]
-    partial class Initial
+    [Migration("20160224225451_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,10 +64,14 @@ namespace AttendanceCore.Migrations
                     b.HasAnnotation("Relational:TableName", "AspNetUsers");
                 });
 
-            modelBuilder.Entity("AttendanceCore.Services.Entry", b =>
+            modelBuilder.Entity("AttendanceCore.Models.Entry", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasAnnotation("MaxLength", 1000);
 
                     b.Property<Guid>("PersonId");
 

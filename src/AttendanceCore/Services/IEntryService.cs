@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AttendanceCore.Models;
+using AttendanceCore.ViewModels.Home;
 
 namespace AttendanceCore.Services
 {

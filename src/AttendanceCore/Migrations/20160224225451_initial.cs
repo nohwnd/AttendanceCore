@@ -4,7 +4,7 @@ using Microsoft.Data.Entity.Migrations;
 
 namespace AttendanceCore.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,6 +38,7 @@ namespace AttendanceCore.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Note = table.Column<string>(nullable: false),
                     PersonId = table.Column<Guid>(nullable: false),
                     Time = table.Column<DateTimeOffset>(nullable: false),
                     Type = table.Column<int>(nullable: false)

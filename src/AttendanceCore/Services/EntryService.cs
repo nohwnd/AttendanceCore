@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AttendanceCore.Infrastructure;
 using AttendanceCore.Models;
+using AttendanceCore.ViewModels.Home;
 using Microsoft.Data.Entity;
 
 namespace AttendanceCore.Services
@@ -25,7 +26,8 @@ namespace AttendanceCore.Services
             var entry = new Entry
             {
                 Type = (EntryType) vm.EntryType,
-                PersonId = _currentUser.Id
+                PersonId = _currentUser.Id,
+                Note = vm.Note
             };
             _context.Entries.Add(entry);
 
@@ -35,15 +37,16 @@ namespace AttendanceCore.Services
         public async Task<ICollection<EntryDisplayViewModel>> GetPageAsync(int i)
         {
             var page = 20;
-            return await _context.Entries.OrderByDescending(e => e.Time)
+            var entries = await _context.Entries.OrderByDescending(e => e.Time)
                 .Join(_context.Users,
                     entry => entry.PersonId.ToString(),
                     user => user.Id,
                     (entry, user) =>
-                        new EntryDisplayViewModel {UserName = user.UserName, Time = entry.Time, Type = entry.Type})
+                        new EntryDisplayViewModel {UserName = user.UserName, Time = entry.Time, Type = entry.Type, Note = entry.Note})
                 .Skip(i*page)
                 .Take(page)
                 .ToListAsync();
+            return entries;
         }
     }
 
@@ -52,5 +55,7 @@ namespace AttendanceCore.Services
         public string UserName { get; set; }
         public EntryType Type { get; set; }
         public DateTimeOffset Time { get; set; }
+
+        public string Note { get; set; }
     }
 }
