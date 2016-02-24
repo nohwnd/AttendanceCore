@@ -1,6 +1,5 @@
 ﻿@using System.Threading.Tasks
 @using AttendanceCore.Infrastructure
-@using Microsoft.ApplicationInsights.Extensibility
 @model EntryViewModel
 
 @{
@@ -8,24 +7,42 @@
     var message = ViewBag.Result?.Message;
 }
 
+
 @if (!string.IsNullOrWhiteSpace(message))
 {
-    <div class="alert alert-@type">
-        @message
+    <div class="alert alert-@type fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>@type!</strong> @message
     </div>
 }
-<form asp-action="Index" asp-controller="Home" method="post" class="form-horizontal">
-    <div class="form-group">
-        <label asp-for="EntryType"></label>
-        <select asp-for="EntryType" class="form-control">
-            <option value="1" selected="selected">@EntryType.In</option>
-            <option value="0">@EntryType.Out</option>
-        </select>
-        <div asp-validation-for="EntryType"></div>
+<div class="container">
+    <div class="row">
+        <form asp-action="Index" asp-controller="Home" method="post" class="form-horizontal">
+            <div class="form-group">
+                <label asp-for="EntryType"></label>
+                <select asp-for="EntryType" class="form-control">
+                    <option value="1" selected="selected">@EntryType.In</option>
+                    <option value="0">@EntryType.Out</option>
+                </select>
+                <div asp-validation-for="EntryType"></div>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-success" value="Save"/>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <input type="submit" class="btn btn-success" value="Save"/>
-    </div>
-</form>
 
-@{ await Html.RenderPartialAsync("_AttendanceReview"); }
+    <div class="row">
+        @{ await Html.RenderPartialAsync("_AttendanceReview"); }
+    </div>
+</div>
+
+@section Scripts {
+
+    <!-- look into _Layout.cshtml at how the scripts are loaded-->
+    <script>
+        $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+            $(".alert").alert('close');
+        });
+    </script>
+}

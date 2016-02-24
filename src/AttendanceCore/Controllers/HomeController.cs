@@ -17,7 +17,8 @@ namespace AttendanceCore.Controllers
         {
             _service = service;
         }
-                public  Task<IActionResult> Index()
+
+        public Task<IActionResult> Index()
         {
             return Task.FromResult((IActionResult) View());
         }

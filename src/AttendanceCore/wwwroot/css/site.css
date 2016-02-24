@@ -30,3 +30,7 @@ textarea { max-width: 280px; }
 @media (min-width: 768px) {
     .carousel-caption { z-index: 10 !important; }
 }
+
+body > .container {
+  padding-top: 40px;
+}
