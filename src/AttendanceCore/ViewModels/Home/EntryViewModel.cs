@@ -6,6 +6,7 @@ namespace AttendanceCore.ViewModels.Home
     {
         public int EntryType { get; set; }
 
+        [Required]
         [StringLength(1000, MinimumLength = 10)]
         [DataType(DataType.MultilineText)]
         public string Note { get; set; }

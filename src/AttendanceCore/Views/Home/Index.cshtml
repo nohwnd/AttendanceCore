@@ -29,15 +29,15 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.Note, new { @class = "control-label" })
+                @Html.LabelFor(m => m.Note, new {@class = "control-label"})
 
                 @*<textarea rows="3" class="form-control" asp-for="Note" data-special-attribute ="some value"></textarea>*@
-                @Html.TextAreaFor(m => m.Note, new { @class = "form-control", rows = "4", data_special_attribute = "some value" })
-                @Html.ValidationMessageFor(m => m.Note, null, new { @class = "text-danger" })
+                @Html.TextAreaFor(m => m.Note, new {@class = "form-control", rows = "4", data_special_attribute = "some value"})
+                @Html.ValidationMessageFor(m => m.Note, null, new {@class = "text-danger"})
             </div>
 
             <div class="form-group">
-                <input type="submit" class="btn btn-success" value="Save" />
+                <input type="submit" class="btn btn-success" value="Save"/>
             </div>
         </form>
     </div>
@@ -54,16 +54,20 @@
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     </environment>
     <environment names="Staging,Production">
+
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"
                 asp-fallback-src="~/lib/jquery-validation/dist/jquery.validate.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.validator">
 
 
-
+        
         </script>
+
         <script src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"
                 asp-fallback-src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.validator && window.jQuery.validator.unobtrusive">
+
+        
         </script>
     </environment>
 }

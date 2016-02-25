@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Security.Claims;
 using AttendanceCore.Infrastructure;
 using AttendanceCore.Models;
@@ -49,9 +50,10 @@ namespace AttendanceCore.Controllers
                 }
                 return View(vm);
             }
-            catch
+            catch (Exception exception)
             {
-                // get and log exception
+                Debug.WriteLine(exception);
+
                 ViewBag.Result = new Result {Type = "danger", Message = "There was some unexpected error, sorry."};
                 return View(vm);
             }
