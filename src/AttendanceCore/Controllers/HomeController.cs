@@ -26,21 +26,34 @@ namespace AttendanceCore.Controllers
         [HttpPost]
         public IActionResult Index(EntryViewModel vm)
         {
-            var id = Guid.Parse(User.GetUserId());
-            if (ModelState.IsValid)
+            try
             {
-                _context.Entries.Add(new Entry
-                {
-                    Note = vm.Note,
-                    PersonId = id,
-                    Time = DateTimeOffset.Now,
-                    Type = (EntryType) vm.EntryType
-                });
-                _context.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                if (!ModelState.IsValid)
+                    return View(vm);
 
-            return View(vm);
+                var id = Guid.Parse(User.GetUserId());
+                if (ModelState.IsValid)
+                {
+                    _context.Entries.Add(new Entry
+                    {
+                        Note = vm.Note,
+                        PersonId = id,
+                        Time = DateTimeOffset.Now,
+                        Type = (EntryType) vm.EntryType
+                    });
+                    _context.SaveChanges();
+
+                    ViewBag.Result = new Result {Type = "success", Message = "Entry was saved successfully."};
+                    return RedirectToAction("Index");
+                }
+                return View(vm);
+            }
+            catch 
+            {
+                // get and log exception
+                ViewBag.Result = new Result {Type = "danger", Message = "There was some unexpected error, sorry."};
+                return View(vm);
+            }
         }
 
         public IActionResult About()
