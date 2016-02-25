@@ -43,6 +43,7 @@ namespace AttendanceCore
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
+            //changed this to use SQLite instead of MSSQL
             services.AddEntityFramework()
                 .AddSqlite()
                 .AddDbContext<ApplicationDbContext>(options =>
@@ -59,8 +60,6 @@ namespace AttendanceCore
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
             // Add context scoped services
-            services.AddScoped<IEntryService, EntryService>();
-            services.AddScoped<ICurrentUser, CurrentUser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

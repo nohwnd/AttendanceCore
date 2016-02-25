@@ -1,43 +1,37 @@
 ﻿@using System.Threading.Tasks
-@using AttendanceCore.Infrastructure
-@model AttendanceCore.ViewModels.Home.EntryViewModel
+@model dynamic
 
-@{
-    var type = ViewBag.Result?.Type;
-    var message = ViewBag.Result?.Message;
-}
+<div class="alert alert-success fade in">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong class="text-capitalize">success</strong> A success message.
+</div>
 
-
-@if (!string.IsNullOrWhiteSpace(message))
-{
-    <div class="alert alert-@type fade in">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong class="text-capitalize">@type!</strong> @message
-    </div>
-}
 <div class="container">
     <div class="row">
-        <form asp-action="Index" asp-controller="Home" method="post" class="form-horizontal">
-            <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+        <form method="post" class="form-horizontal">
+            <div class="text-danger"> Validation summary</div>
             <div class="form-group">
-                <label asp-for="EntryType"></label>
-                <select asp-for="EntryType" class="form-control">
-                    <option value="1" selected="selected">@EntryType.In</option>
-                    <option value="0">@EntryType.Out</option>
+                <label class="control-label">Entry type:</label>
+                <select class="form-control">
+                    <option value="1" selected="selected">In</option>
+                    <option value="0">Out</option>
                 </select>
-                <div asp-validation-for="EntryType" class="text-danger"></div>
+                <div class="text-danger">Validation for entry type</div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.Note, new {@class = "control-label"})
+                <label class="control-label">Label for note</label>
+                <textarea rows="3" class="form-control">Text area for note</textarea>
+                <div class="text-danger">Validation message for Note</div>
 
-                @*<textarea rows="3" class="form-control" asp-for="Note" data-special-attribute ="some value"></textarea>*@
-                @Html.TextAreaFor(m => m.Note, new {@class = "form-control", rows = "4", data_special_attribute = "some value"})
-                @Html.ValidationMessageFor(m => m.Note, null, new {@class = "text-danger"})
+                @*@Html.LabelFor(m => m.Note, new { @class = "control-label" })
+                    @Html.TextAreaFor(m => m.Note, new { @class = "form-control", rows = "4", data_special_attribute = "some value" })
+                    @Html.ValidationMessageFor(m => m.Note, null, new { @class = "text-danger" })*@
+
             </div>
 
             <div class="form-group">
-                <input type="submit" class="btn btn-success" value="Save"/>
+                <input type="submit" class="btn btn-success" value="Save" />
             </div>
         </form>
     </div>
@@ -54,20 +48,14 @@
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     </environment>
     <environment names="Staging,Production">
-
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"
                 asp-fallback-src="~/lib/jquery-validation/dist/jquery.validate.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.validator">
-
-
-        
         </script>
 
         <script src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"
                 asp-fallback-src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.validator && window.jQuery.validator.unobtrusive">
-
-        
         </script>
     </environment>
 }
