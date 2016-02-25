@@ -44,11 +44,12 @@ namespace AttendanceCore.Controllers
                     _context.SaveChanges();
 
                     ViewBag.Result = new Result {Type = "success", Message = "Entry was saved successfully."};
-                    return RedirectToAction("Index");
+                    ModelState.Clear();
+                    return View();
                 }
                 return View(vm);
             }
-            catch 
+            catch
             {
                 // get and log exception
                 ViewBag.Result = new Result {Type = "danger", Message = "There was some unexpected error, sorry."};
