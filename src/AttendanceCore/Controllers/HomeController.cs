@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Security.Claims;
+using System.Threading.Tasks;
 using AttendanceCore.Infrastructure;
-using AttendanceCore.Models;
+using AttendanceCore.Services;
 using AttendanceCore.ViewModels.Home;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
@@ -12,11 +12,11 @@ namespace AttendanceCore.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IEntryService _service;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(IEntryService service)
         {
-            _context = context;
+            _service = service;
         }
 
         public IActionResult Index()
@@ -25,24 +25,16 @@ namespace AttendanceCore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(EntryViewModel vm)
+        public async Task<IActionResult> Index(EntryViewModel vm)
         {
             try
             {
                 if (!ModelState.IsValid)
                     return View(vm);
 
-                var id = Guid.Parse(User.GetUserId());
                 if (ModelState.IsValid)
                 {
-                    _context.Entries.Add(new Entry
-                    {
-                        Note = vm.Note,
-                        PersonId = id,
-                        Time = DateTimeOffset.Now,
-                        Type = (EntryType) vm.EntryType
-                    });
-                    _context.SaveChanges();
+                    await _service.AddEntryAsync(vm);
 
                     ViewBag.Result = new Result {Type = "success", Message = "Entry was saved successfully."};
                     ModelState.Clear();
